@@ -1,0 +1,73 @@
+package com.stores.Entities;
+
+import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "books")
+public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+    private String author;
+    private String category;
+    private String isbn;
+    private BigDecimal price;
+    private String description;
+    private Integer stockQuantity;
+
+    // Construtor privado para uso com o Builder
+    private Book(BookBuilder builder) {
+        this.id = builder.id;
+        this.title = builder.title;
+        this.author = builder.author;
+        this.category = builder.category;
+        this.isbn = builder.isbn;
+        this.price = builder.price;
+        this.description = builder.description;
+        this.stockQuantity = builder.stockQuantity;
+    }
+
+    // Getters e Setters (omitidos para brevidade)
+
+    // Builder estático
+    public static class BookBuilder {
+        private Long id;
+        private String title;
+        private String author;
+        private String category;
+        private String isbn;
+        private BigDecimal price;
+        private String description;
+        private Integer stockQuantity;
+
+        public BookBuilder() {
+        }
+
+        public BookBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        // Métodos 'with' para todos os campos (omitidos para brevidade)
+
+        public BookBuilder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        // ... outros métodos 'with'
+
+        public Book build() {
+            return new Book(this);
+        }
+    }
+}

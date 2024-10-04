@@ -1,0 +1,17 @@
+package com.stores.Mappers;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import com.stores.DTOs.dto.BookDTO;
+import com.stores.Entities.Book;
+
+@Mapper
+public interface BookMapper {
+
+    BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
+
+    Book toModel(BookDTO bookDTO);
+
+    BookDTO toDTO(Book book);
+}

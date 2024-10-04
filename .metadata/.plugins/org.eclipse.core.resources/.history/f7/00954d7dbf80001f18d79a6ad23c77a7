@@ -1,0 +1,56 @@
+package com.stores.Services;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.stores.DTOs.dto.BookDTO;
+import com.stores.Mappers.BookMapper;
+import com.stores.Repository.BookRepository;
+
+@Service
+public class BookCollectionService {
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private BookMapper bookMapper;
+
+    public List<BookDTO> listAllBooks() {
+        return bookRepository.findAll()
+                .stream()
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<BookDTO> findByTitle(String title) {
+        return bookRepository.findByTitleContainingIgnoreCase(title)
+                .stream()
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<BookDTO> findByAuthor(String author) {
+        return bookRepository.findByAuthorContainingIgnoreCase(author)
+                .stream()
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<BookDTO> findByIsbn(String isbn) {
+        return bookRepository.findByIsbn(isbn)
+                .stream()
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<BookDTO> findByCategory(String category) {
+        return bookRepository.findByCategory(category)
+                .stream()
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
+    }
+}

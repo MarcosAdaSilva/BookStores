@@ -1,0 +1,164 @@
+package com.stores.Entities;
+
+import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "books")
+public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+    private String author;
+    private String category;
+    private String isbn;
+    private BigDecimal price;
+    private String description;
+    private Integer stockQuantity;
+
+    // Construtor privado para uso com o Builder
+    private Book(BookBuilder builder) {
+        this.id = builder.id;
+        this.title = builder.title;
+        this.author = builder.author;
+        this.category = builder.category;
+        this.isbn = builder.isbn;
+        this.price = builder.price;
+        this.description = builder.description;
+        this.stockQuantity = builder.stockQuantity;
+    }
+
+    
+
+    public String getTitle() {
+		return title;
+	}
+
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+
+	public String getAuthor() {
+		return author;
+	}
+
+
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+
+
+	public String getCategory() {
+		return category;
+	}
+
+
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+
+
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
+	public Integer getStockQuantity() {
+		return stockQuantity;
+	}
+
+
+
+	public void setStockQuantity(Integer stockQuantity) {
+		this.stockQuantity = stockQuantity;
+	}
+
+
+
+	// Builder estático
+    public static class BookBuilder {
+        private Long id;
+        private String title;
+        private String author;
+        private String category;
+        private String isbn;
+        private BigDecimal price;
+        private String description;
+        private Integer stockQuantity;
+
+        public BookBuilder() {
+        }
+
+        public BookBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        // Métodos 'with' para todos os campos (omitidos para brevidade)
+
+        public BookBuilder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        // ... outros métodos 'with'
+
+        public Book build() {
+            return new Book(this);
+        }
+    }
+
+
+
+	public Object getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

@@ -1,0 +1,7 @@
+package com.stores.NotFoundExceptions;
+
+public class BookNotFoundException extends Exception {
+    public BookNotFoundException(Long id) {
+        super(String.format("Book with ID %s not found.", id));
+    }
+}

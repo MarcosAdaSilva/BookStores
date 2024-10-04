@@ -1,0 +1,16 @@
+package com.stores.Mappers;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+import com.stores.DTOs.dto.CategoriaDTO;
+import com.stores.Entities.Categoria;
+
+@Mapper(componentModel = "spring")
+public interface CategoriaMapper {
+    @Mapping(target = "id", source = "id") // Adiciona mapeamento explícito
+    CategoriaDTO toDto(Categoria categoria);
+
+    @Mapping(target = "id", source = "id") // Adiciona mapeamento explícito
+    Categoria toEntity(CategoriaDTO categoriaDTO);
+}

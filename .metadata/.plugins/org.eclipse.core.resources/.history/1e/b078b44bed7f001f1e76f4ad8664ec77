@@ -1,0 +1,5 @@
+package com.stores.DTOs;
+
+public class BookDTO {
+
+}

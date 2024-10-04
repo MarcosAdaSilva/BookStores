@@ -1,0 +1,33 @@
+package com.stores.BookServiceTest;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+
+import com.stores.Mappers.BookMapper;
+import com.stores.NotFoundExceptions.BookNotFoundException;
+import com.stores.Repository.BookRepository;
+import com.stores.Services.BookService;
+
+public class BookServiceTest {
+
+    @Mock
+    private BookRepository bookRepository;
+
+    private final BookMapper bookMapper = BookMapper.INSTANCE;
+
+    @InjectMocks
+    private BookService bookService;
+
+    @Test
+    public void testCreateBook() {
+        // Implementar teste para criação de livro
+    }
+
+    @Test
+    public void testUpdateBook() throws BookNotFoundException {
+        // Implementar teste para atualização de livro
+    }
+
+    // Outros testes...
+}

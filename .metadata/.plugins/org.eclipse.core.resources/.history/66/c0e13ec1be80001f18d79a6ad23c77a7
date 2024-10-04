@@ -1,0 +1,79 @@
+package com.stores.Services;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.stores.DTOs.dto.BookDTO;
+import com.stores.Entities.Book;
+import com.stores.Mappers.BookMapper;
+import com.stores.NotFoundExceptions.BookNotFoundException;
+import com.stores.Repository.BookRepository;
+
+@Service
+public class BookService {
+
+    private final BookRepository bookRepository;
+    private final BookMapper bookMapper = BookMapper.INSTANCE;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
+    public BookDTO createBook(BookDTO bookDTO) {
+        Book book = bookMapper.toModel(bookDTO);
+        Book savedBook = bookRepository.save(book);
+        return bookMapper.toDTO(savedBook);
+    }
+
+    public BookDTO updateBook(Long id, BookDTO bookDTO) throws BookNotFoundException {
+        Book existingBook = verifyIfExists(id);
+        Book updatedBook = bookMapper.toModel(bookDTO);
+        updatedBook.setId(existingBook.getId());
+        Book savedBook = bookRepository.save(updatedBook);
+        return bookMapper.toDTO(savedBook);
+    }
+
+    public void deleteBook(Long id) throws BookNotFoundException {
+        Book book = verifyIfExists(id);
+        bookRepository.delete(book);
+    }
+
+    public BookDTO findById(Long id) throws BookNotFoundException {
+        Book book = verifyIfExists(id);
+        return bookMapper.toDTO(book);
+    }
+
+    public List<BookDTO> listAll() {
+        return bookRepository.findAll()
+                .stream()
+                .map(bookMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    private Book verifyIfExists(Long id) throws BookNotFoundException {
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
+    }
+
+	public List<BookDTO> listAllBooks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<BookDTO> findByTitle(String title) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<BookDTO> findByAuthor(String author) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<BookDTO> findByIsbn(String isbn) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

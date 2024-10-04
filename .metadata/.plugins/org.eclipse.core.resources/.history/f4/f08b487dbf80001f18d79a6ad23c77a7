@@ -1,0 +1,12 @@
+package com.stores.Mappers;
+
+import org.mapstruct.Mapper;
+
+import com.stores.DTOs.dto.BookDTO;
+import com.stores.Entities.Book;
+
+@Mapper(componentModel = "spring")
+public interface BookCollectionMapper {
+    BookDTO toDto(Book book);
+    Book toEntity(BookDTO bookDTO);
+}

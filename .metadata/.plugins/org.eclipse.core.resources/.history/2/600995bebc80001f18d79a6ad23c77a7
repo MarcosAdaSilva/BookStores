@@ -1,0 +1,17 @@
+package com.stores.Mappers;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import com.stores.DTOs.dto.CategoriaDTO;
+import com.stores.Entities.Categoria;
+
+@Mapper
+public interface CategoriaMapper {
+
+    CategoriaMapper INSTANCE = Mappers.getMapper(CategoriaMapper.class);
+
+    Categoria toEntity(CategoriaDTO dto);
+
+    CategoriaDTO toDto(Categoria categoria);
+}

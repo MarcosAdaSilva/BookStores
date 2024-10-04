@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="org.mapstruct.Mapping"/>
+    <fullyQualifiedTypeName name="com.stores.Entities.Book"/>
+    <fullyQualifiedTypeName name="com.stores.Entities.BookCollection"/>
+</qualifiedTypeNameHistroy>

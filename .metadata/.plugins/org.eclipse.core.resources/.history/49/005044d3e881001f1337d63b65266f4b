@@ -1,0 +1,128 @@
+package com.stores.BookServiceTest;
+
+import com.stores.DTOs.dto.BookDTO;
+import com.stores.Entities.Book;
+import com.stores.Mappers.BookMapper;
+import com.stores.NotFoundExceptions.BookNotFoundException;
+import com.stores.Repository.BookRepository;
+import com.stores.Services.BookService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.*;
+
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.math.BigDecimal;
+import java.util.Optional;
+
+public class BookServiceTest {
+
+    @Mock
+    private BookRepository bookRepository;
+
+    @InjectMocks
+    private BookService bookService;
+
+    private BookMapper bookMapper = BookMapper.INSTANCE;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    public void testCreateBook() {
+        BookDTO bookDTO = new BookDTO();
+        bookDTO.setTitle("Test Book");
+        bookDTO.setAuthor("Test Author");
+        bookDTO.setIsbn("1234567890");
+        bookDTO.setPrice(new BigDecimal("19.99"));
+        bookDTO.setStockQuantity(10);
+
+        Book savedBook = new Book.BookBuilder()
+                .withId(1L)
+                .withTitle("Test Book")
+                .withAuthor("Test Author")
+                .withIsbn("1234567890")
+                .withPrice(new BigDecimal("19.99"))
+                .withStockQuantity(10)
+                .build();
+
+        when(bookRepository.save(any(Book.class))).thenReturn(savedBook);
+
+        BookDTO result = bookService.createBook(bookDTO);
+
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        assertEquals("Test Book", result.getTitle());
+        verify(bookRepository, times(1)).save(any(Book.class));
+    }
+
+    @Test
+    public void testFindById_Success() throws BookNotFoundException {
+        Book book = new Book.BookBuilder()
+                .withId(1L)
+                .withTitle("Test Book")
+                .withAuthor("Test Author")
+                .withIsbn("1234567890")
+                .withPrice(new BigDecimal("19.99"))
+                .withStockQuantity(10)
+                .build();
+
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+
+        BookDTO result = bookService.findById(1L);
+
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        verify(bookRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void testFindById_NotFound() {
+        when(bookRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(BookNotFoundException.class, () -> {
+            bookService.findById(1L);
+        });
+
+        verify(bookRepository, times(1)).findById(1L);
+    }
+
+	public BookMapper getBookMapper() {
+		return bookMapper;
+	}
+
+	public void setBookMapper(BookMapper bookMapper) {
+		this.bookMapper = bookMapper;
+	}
+	
+	@Test
+	public void testCreateBook_FalhaMapeamento() {
+	    BookDTO bookDTO = new BookDTO();
+	    bookDTO.setTitle("Test Book");
+
+	    when(bookMapper.toModel(any())).thenThrow(new RuntimeException("Erro ao mapear"));
+
+	    assertThrows(RuntimeException.class, () -> {
+	        bookService.createBook(bookDTO);
+	    });
+
+	    verify(bookRepository, never()).save(any(Book.class));
+	}
+	
+	@Test
+	public void testFindById_ExcecaoMensagem() {
+	    when(bookRepository.findById(1L)).thenReturn(Optional.empty());
+
+	    BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> {
+	        bookService.findById(1L);
+	    });
+
+	    assertEquals("Book not found with id 1", exception.getMessage());
+	}
+
+
+
+}

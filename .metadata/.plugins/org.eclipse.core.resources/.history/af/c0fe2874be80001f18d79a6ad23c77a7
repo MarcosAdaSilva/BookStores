@@ -1,0 +1,5 @@
+package com.stores.Repository;
+
+public class BookCollectionRepository {
+
+}
